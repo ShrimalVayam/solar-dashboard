@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg:           #0e1017;
+  --bg-2:         #12151e;
+  --bg-card:      #181c28;
+  --bg-card-2:    #1d2235;
+  --bg-hover:     #222840;
+
+  --border:       #252d3f;
+  --border-2:     #2f3a50;
+  --border-3:     #3a4560;
+
+  --accent:       #f59e0b;
+  --accent-2:     #fbbf24;
+  --accent-bg:    rgba(245, 159, 11, 0.14);
+  --accent-glow:  rgba(245, 159, 11, 0.22);
+
+  --green:        #22c55e;
+  --green-bg:     rgba(34, 197, 94, 0.14);
+  --red:          #f43f5e;
+  --red-bg:       rgba(244, 63, 94, 0.14);
+
+  --c-amber:      #f59e0b;
+  --c-amber-bg:   rgba(245, 159, 11, 0.18);
+  --c-blue:       #60a5fa;
+  --c-blue-bg:    rgba(96, 165, 250, 0.18);
+  --c-teal:       #2dd4bf;
+  --c-teal-bg:    rgba(45, 212, 191, 0.18);
+  --c-rose:       #fb7185;
+  --c-rose-bg:    rgba(251, 113, 133, 0.18);
+  --c-purple:     #a78bfa;
+  --c-purple-bg:  rgba(167, 139, 250, 0.18);
+
+  --text:         #eef0f6;
+  --text-2:       #9199b0;
+  --text-3:       #5d6580;
+  --text-4:       #3d4460;
+
+  --r-sm:  6px;
+  --r-md:  10px;
+  --r-lg:  14px;
+  --r-xl:  18px;
+}
+
+@layer base {
+  html { font-family: 'Inter', system-ui, sans-serif; }
+  body { @apply bg-[var(--bg)] text-[var(--text)] min-h-screen; }
+  h1, h2, h3, h4 { @apply m-0 font-semibold; }
+  p  { @apply m-0; }
+  button { @apply font-sans cursor-pointer border-none outline-none; }
+  input, textarea { @apply font-sans outline-none; }
+
+  ::-webkit-scrollbar        { @apply w-1 h-1; }
+  ::-webkit-scrollbar-track  { background: transparent; }
+  ::-webkit-scrollbar-thumb  { background: var(--border-2); @apply rounded-sm; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--border-3); }
+
+  code {
+    font-family: 'SFMono-Regular', Consolas, monospace;
+    @apply text-[0.85em] bg-[var(--bg-card-2)] px-1 rounded;
+  }
+}
+
+@keyframes slide-down {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-slide-down { animation: slide-down 0.15s ease; }
+
+input[type="date"] { color-scheme: dark; }
