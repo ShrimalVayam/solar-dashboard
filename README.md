@@ -1,194 +1,195 @@
-# Solar Dashboard
+# Solar Dashboard ☀️
 
-A full-stack solar production analytics dashboard.  
-Upload a CSV → see metrics, trend chart, and AI-powered insights.
+A full-stack **solar production analytics dashboard**.
 
-```
-frontend/   React + Vite + TypeScript (fe-boilerplate)
-Server/    Express + TypeScript + ts-node (be-boilerplate)
+Upload a CSV → instantly get:
+- 📊 Clean metrics
+- 📈 Trend visualization
+- 🤖 AI-powered insights (Groq LLM)
+
+---
+
+## 📸 Preview
+
+### Dashboard Overview
+![Dashboard 1](./public/images/img1.png)
+
+### Analytics View
+![Dashboard 2](./public/images/img2.png)
+
+### Demo (GIF)
+![Demo](./public/gifs/demo.gif)
+
+---
+
+## 🚀 Features
+
+- 📁 Drag & drop CSV upload
+- 📊 Real-time production metrics
+- 📈 Interactive Recharts graph
+- 🤖 AI insights using Groq API
+- 📅 Date filtering (7D / 30D / 90D / All)
+- 🧪 Built-in demo dataset (no upload needed)
+
+---
+
+## 🧠 Tech Stack
+
+### Frontend
+- React + Vite + TypeScript
+- Tailwind CSS
+- Recharts
+- PapaParse (CSV parsing)
+
+### Backend
+- Node.js + Express + TypeScript
+- Groq AI API integration
+- dotenv for environment variables
+
+---
+
+## ⚙️ How to Run (Beginner Friendly)
+
+### 1️⃣ Prerequisites
+
+Make sure you have:
+
+```bash
+node -v   # v18+
+pnpm -v   # install: npm i -g pnpm
 ```
 
 ---
 
-## ▶ How to Run (Zero Errors)
+### 2️⃣ Install dependencies
 
-### Step 1 — Prerequisites
-Make sure you have these installed:
-```bash
-node --version   # must be v18 or higher (for native fetch)
-pnpm --version   # install: npm install -g pnpm
-```
+From project root:
 
-### Step 2 — Install dependencies
 ```bash
-# From the project root:
-cd Server  && pnpm install
+cd Server && pnpm install
 cd ../Client && pnpm install
-cd ..
 ```
 
-### Step 3 — Add your GROQ API key
+---
+
+### 3️⃣ Setup environment variables
+
 ```bash
-cp .env.example Server/.env
-# Open Server/.env and set:
-# GROQ_API_KEY=sk-ant-your-key-here
+cd Server/.env.example Server/.env
 ```
-> The app works without a key — the AI Insights button will show a clear
-> error. CSV upload, metrics, and the chart all work without a key.
 
-### Step 4 — Start the project
-Open **two terminals**:
+Open `Server/.env` and add:
 
-**Terminal 1 — Server API (port 3000)**
+```env
+GROQ_API_KEY=your_actual_groq_key_here
+PORT=3000
+```
+
+👉 Get your key from: https://console.groq.com
+
+---
+
+### 4️⃣ Run the project
+
+Open TWO terminals:
+
+#### Backend
 ```bash
 cd Server
 pnpm dev
 ```
-You should see:
+
+Server runs at:
 ```
-🟢 Solar API running on http://localhost:3000
-✅ GROQ_API_KEY loaded
+http://localhost:3000
 ```
 
-**Terminal 2 — Client (port 5173)**
+#### Frontend
 ```bash
 cd Client
 pnpm dev
 ```
-You should see:
+
+Frontend runs at:
 ```
-  VITE v7.x  ready in Xms
-  ➜  Local:   http://localhost:5173/
-```
-
-Open **http://localhost:5173** in your browser.
-
-### Alternative — Start both at once (from root)
-```bash
-# Install concurrently first:
-npm install   # installs concurrently at root level
-
-# Then run both:
-npm run dev
+http://localhost:5173
 ```
 
 ---
 
-## Testing Without a CSV
+### ⚡ Quick Start (Demo Mode)
 
-Click **Load Demo Data** in the header to instantly load 30 days of
-sample solar production data — no file upload needed.
+No CSV needed:
 
-Or upload the included `sample.csv` from the project root.
+👉 Click **"Load Demo Data"** inside the app
 
 ---
 
-## Project Structure
+## 📂 Project Structure
 
 ```
 solar-dashboard/
-├── Server/                  ← Express API (be-boilerplate)
-│   ├── src/
-│   │   ├── server.ts         starts server, loads .env
-│   │   ├── app.ts            Express app, middleware, routes
-│   │   ├── routes/
-│   │   │   ├── health.route.ts
-│   │   │   └── ai.route.ts   POST /api/ai/insights
-│   │   ├── controllers/
-│   │   │   ├── health.controller.ts
-│   │   │   └── ai.controller.ts
-│   │   ├── services/
-│   │   │   ├── health.service.ts
-│   │   │   └── ai.service.ts  calls GROQ, key stays server-side
-│   │   └── utils/logger.ts
-│   ├── package.json
-│   ├── tsconfig.json         CommonJS module system
-│   └── nodemon.json
-│
-├── Client/                 ← React app (fe-boilerplate)
-│   ├── src/
-│   │   ├── App.tsx           layout, state, routing between screens
-│   │   ├── components/
-│   │   │   ├── FileUpload    drag-and-drop CSV upload
-│   │   │   ├── SummaryCards  4 metric cards with icons
-│   │   │   ├── ProductionChart  Recharts area chart
-│   │   │   ├── AIInsights    Generate Insights panel
-│   │   │   └── DateFilter    7D / 30D / 60D / 90D / All pills
-│   │   ├── utils/
-│   │   │   ├── parseCsv.ts   PapaParse wrapper
-│   │   │   ├── metrics.ts    pure computation helpers
-│   │   │   ├── api.ts        calls /api/ai/insights
-│   │   │   └── demoData.ts   embedded 30-day sample dataset
-│   │   └── types/solar.ts
-│   ├── vite.config.ts        proxies /api → localhost:3000
-│   └── package.json
-│
-├── sample.csv                30-day solar dataset for testing
-├── .env.example              API key template
-└── README.md
+├── Server/        Express + Groq AI backend
+├── Client/        React dashboard UI
+├── sample.csv     Demo dataset
+└── public/
+    ├── images/
+    │   ├── img1.png
+    │   └── img2.png
+    └── gifs/
+        └── demo.gif
 ```
 
 ---
 
-## How the AI works (no key in the browser)
+## 🤖 How AI Works
 
 ```
-Browser                  Server/src/services/ai.service.ts   GROQ
-  │                                    │                          │
-  │  POST /api/ai/insights             │                          │
-  │  { system, messages }  ──────────► │  x-api-key: (from .env) │
-  │                                    │ ────────────────────────►│
-  │                                    │ ◄────────────────────────│
-  │  ◄──────── { text: "..." }         │                          │
+Frontend → Backend → Groq API → AI Response → Frontend
 ```
 
-`GROQ_API_KEY` lives only in `Server/.env`.  
-Vite proxies all `/api` requests to `localhost:3000` during dev.
+- API key is stored ONLY in backend (`Server/.env`)
+- Frontend never sees secrets
+- `/api/ai/insights` handles requests securely
 
 ---
 
-## CSV Format
+## 📄 CSV Format
 
-Both column name variants are accepted:
+Simple format:
 
 ```csv
 date,production_kwh
 2026-01-01,373
 ```
 
+Advanced format also supported:
+
 ```csv
 date,site_name,daily_production_kwh,weather,anomaly_detected
-2026-01-01,My Site,373,Cloudy,Yes
+2026-01-01,Site A,373,Cloudy,Yes
 ```
 
 ---
 
-## Architecture Decisions
+## 🧩 Architecture Decisions
 
-| Decision | Rationale |
-|---|---|
-| Separate Server for AI | API key never touches the browser |
-| `ts-node` + CommonJS in Server | Avoids ESM/CJS conflicts — the root cause of previous startup failures |
-| Frontend-only CSV parsing | No file upload endpoint needed; PapaParse works client-side |
-| `computeMetrics` pure function | Easy to test, no side effects |
-| Embedded demo data | Zero-friction demo without needing a file upload |
+- 🔐 Backend-only API key security (Groq)
+- ⚡ Vite proxy for `/api` calls
+- 📦 Client-side CSV parsing (fast + simple)
+- 🧠 Pure metric computation utilities
+- 🎯 Demo data included for zero setup friction
 
 ---
 
-## Tradeoffs
+## 📌 Future Improvements
 
-- **No persistent storage** — data lives in React state, cleared on refresh
-- **No auth** — appropriate for a local analytics tool
-- **Lightweight CSV validation** — catches structural issues, not semantic ones (e.g. duplicate dates)
-- **`claude-haiku`** — fast and cheap; the task is short-context summarisation
+- Weather API integration 🌦️
+- PDF export reports 📄
+- Multi-site comparison 📊
+- Database persistence (PostgreSQL)
+- User authentication 🔐
+- Streaming AI responses ⚡
 
 ---
 
-## Future Improvements
-
-- Stream AI responses token-by-token
-- Weather API overlay on the chart
-- Anomaly detection (z-score based)
-- Multi-site CSV comparison
-- Export chart as PNG / summary as PDF
-- Persistent history (PostgreSQL + auth)
