@@ -1,0 +1,14 @@
+{
+  "name": "solar-dashboard",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "concurrently -k -p \"[{name}]\" -n \"API ,APP \" -c \"yellow,cyan\" \"pnpm --prefix backend dev\" \"pnpm --prefix frontend dev\"",
+    "dev:backend": "pnpm --prefix backend dev",
+    "dev:frontend": "pnpm --prefix frontend dev",
+    "install:all": "pnpm --prefix backend install && pnpm --prefix frontend install"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
