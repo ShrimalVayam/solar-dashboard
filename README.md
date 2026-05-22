@@ -27,11 +27,11 @@ cd ../Client && pnpm install
 cd ..
 ```
 
-### Step 3 — Add your Anthropic API key
+### Step 3 — Add your GROQ API key
 ```bash
 cp .env.example Server/.env
 # Open Server/.env and set:
-# ANTHROPIC_API_KEY=sk-ant-your-key-here
+# GROQ_API_KEY=sk-ant-your-key-here
 ```
 > The app works without a key — the AI Insights button will show a clear
 > error. CSV upload, metrics, and the chart all work without a key.
@@ -39,15 +39,15 @@ cp .env.example Server/.env
 ### Step 4 — Start the project
 Open **two terminals**:
 
-**Terminal 1 — Server API (port 3001)**
+**Terminal 1 — Server API (port 3000)**
 ```bash
 cd Server
 pnpm dev
 ```
 You should see:
 ```
-🟢 Solar API running on http://localhost:3001
-✅ ANTHROPIC_API_KEY loaded
+🟢 Solar API running on http://localhost:3000
+✅ GROQ_API_KEY loaded
 ```
 
 **Terminal 2 — Client (port 5173)**
@@ -99,7 +99,7 @@ solar-dashboard/
 │   │   │   └── ai.controller.ts
 │   │   ├── services/
 │   │   │   ├── health.service.ts
-│   │   │   └── ai.service.ts  calls Anthropic, key stays server-side
+│   │   │   └── ai.service.ts  calls GROQ, key stays server-side
 │   │   └── utils/logger.ts
 │   ├── package.json
 │   ├── tsconfig.json         CommonJS module system
@@ -120,7 +120,7 @@ solar-dashboard/
 │   │   │   ├── api.ts        calls /api/ai/insights
 │   │   │   └── demoData.ts   embedded 30-day sample dataset
 │   │   └── types/solar.ts
-│   ├── vite.config.ts        proxies /api → localhost:3001
+│   ├── vite.config.ts        proxies /api → localhost:3000
 │   └── package.json
 │
 ├── sample.csv                30-day solar dataset for testing
@@ -133,7 +133,7 @@ solar-dashboard/
 ## How the AI works (no key in the browser)
 
 ```
-Browser                  Server/src/services/ai.service.ts   Anthropic
+Browser                  Server/src/services/ai.service.ts   GROQ
   │                                    │                          │
   │  POST /api/ai/insights             │                          │
   │  { system, messages }  ──────────► │  x-api-key: (from .env) │
@@ -142,8 +142,8 @@ Browser                  Server/src/services/ai.service.ts   Anthropic
   │  ◄──────── { text: "..." }         │                          │
 ```
 
-`ANTHROPIC_API_KEY` lives only in `Server/.env`.  
-Vite proxies all `/api` requests to `localhost:3001` during dev.
+`GROQ_API_KEY` lives only in `Server/.env`.  
+Vite proxies all `/api` requests to `localhost:3000` during dev.
 
 ---
 
