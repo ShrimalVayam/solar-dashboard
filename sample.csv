@@ -1,0 +1,31 @@
+date,site_name,daily_production_kwh,weather,anomaly_detected
+2026-01-01,Clenergize Solar Site A,373,Cloudy,Yes
+2026-01-02,Clenergize Solar Site A,387,Sunny,No
+2026-01-03,Clenergize Solar Site A,393,Sunny,No
+2026-01-04,Clenergize Solar Site A,353,Cloudy,No
+2026-01-05,Clenergize Solar Site A,366,Sunny,No
+2026-01-06,Clenergize Solar Site A,348,Cloudy,No
+2026-01-07,Clenergize Solar Site A,356,Partly Cloudy,No
+2026-01-08,Clenergize Solar Site A,353,Partly Cloudy,No
+2026-01-09,Clenergize Solar Site A,362,Sunny,No
+2026-01-10,Clenergize Solar Site A,373,Sunny,No
+2026-01-11,Clenergize Solar Site A,365,Partly Cloudy,No
+2026-01-12,Clenergize Solar Site A,354,Cloudy,No
+2026-01-13,Clenergize Solar Site A,324,Cloudy,No
+2026-01-14,Clenergize Solar Site A,334,Partly Cloudy,No
+2026-01-15,Clenergize Solar Site A,294,Cloudy,No
+2026-01-16,Clenergize Solar Site A,293,Partly Cloudy,No
+2026-01-17,Clenergize Solar Site A,304,Sunny,No
+2026-01-18,Clenergize Solar Site A,285,Cloudy,No
+2026-01-19,Clenergize Solar Site A,286,Partly Cloudy,No
+2026-01-20,Clenergize Solar Site A,276,Cloudy,No
+2026-01-21,Clenergize Solar Site A,250,Cloudy,No
+2026-01-22,Clenergize Solar Site A,203,Sunny,Yes
+2026-01-23,Clenergize Solar Site A,223,Sunny,No
+2026-01-24,Clenergize Solar Site A,198,Cloudy,No
+2026-01-25,Clenergize Solar Site A,100,Cloudy,Yes
+2026-01-26,Clenergize Solar Site A,100,Sunny,Yes
+2026-01-27,Clenergize Solar Site A,100,Cloudy,No
+2026-01-28,Clenergize Solar Site A,100,Sunny,Yes
+2026-01-29,Clenergize Solar Site A,100,Sunny,No
+2026-01-30,Clenergize Solar Site A,100,Cloudy,Yes
