@@ -9,6 +9,9 @@ interface UseFilteredDataOptions {
   customEnd: string;
 }
 
+const toEpochMs = (dateStr: string, endOfDay = false): number =>
+  new Date(`${dateStr}T${endOfDay ? '23:59:59' : '00:00:00'}`).getTime();
+
 export const useFilteredData = ({
   data,
   filter,
@@ -16,31 +19,24 @@ export const useFilteredData = ({
   customEnd,
 }: UseFilteredDataOptions): SolarDataPoint[] => {
   return useMemo<SolarDataPoint[]>(() => {
-    if (!data) return [];
-
-    if (filter === 'custom') {
-      if (!customStart && !customEnd) return data;
-      return data.filter((d) => {
-        const t = new Date(d.date + 'T00:00:00').getTime();
-        const s = customStart
-          ? new Date(customStart + 'T00:00:00').getTime()
-          : -Infinity;
-        const e = customEnd
-          ? new Date(customEnd + 'T23:59:59').getTime()
-          : Infinity;
-        return t >= s && t <= e;
-      });
-    }
+    if (!data?.length) return [];
 
     if (filter === 'all') return data;
 
-    const days = DAYS_MAP[filter as keyof typeof DAYS_MAP];
-    const last = new Date(
-      data[data.length - 1].date + 'T00:00:00'
-    ).getTime();
-    const cutoff = last - days * 86_400_000;
-    return data.filter(
-      (d) => new Date(d.date + 'T00:00:00').getTime() >= cutoff
-    );
+    if (filter === 'custom') {
+      if (!customStart && !customEnd) return data;
+      const windowStart = customStart ? toEpochMs(customStart) : -Infinity;
+      const windowEnd = customEnd ? toEpochMs(customEnd, true) : Infinity;
+      return data.filter((point) => {
+        const pointMs = toEpochMs(point.date);
+        return pointMs >= windowStart && pointMs <= windowEnd;
+      });
+    }
+
+    const windowDays = DAYS_MAP[filter as keyof typeof DAYS_MAP];
+    const latestMs = toEpochMs(data[data.length - 1].date);
+    const cutoffMs = latestMs - windowDays * 86_400_000;
+
+    return data.filter((point) => toEpochMs(point.date) >= cutoffMs);
   }, [data, filter, customStart, customEnd]);
 };

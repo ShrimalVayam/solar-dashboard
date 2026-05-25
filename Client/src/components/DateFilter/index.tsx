@@ -12,6 +12,15 @@ interface DateFilterProps {
   dataMax?: string;
 }
 
+interface DateRangeField {
+  id: 'from' | 'to';
+  label: string;
+  value: string;
+  min?: string;
+  max?: string;
+  onChange: (value: string) => void;
+}
+
 const CalendarIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
     strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
@@ -23,10 +32,16 @@ const CalendarIcon = () => (
   </svg>
 );
 
-const pillBase =
+const PILL_BASE_CLASSES =
   'text-xs font-medium px-[0.8em] py-[0.3em] rounded-[var(--r-sm)] bg-[var(--bg-card-2)] border border-[var(--border)] text-[var(--text-3)] whitespace-nowrap transition-[background,color,border-color] duration-[120ms] hover:text-[var(--text-2)] hover:border-[var(--border-2)] hover:bg-[var(--bg-hover)]';
-const pillActive =
+
+const PILL_ACTIVE_CLASSES =
   'bg-[var(--accent)] border-[var(--accent)] !text-white hover:bg-[var(--accent-2)] hover:border-[var(--accent-2)]';
+
+const getPillClasses = (isActive: boolean, extra = ''): string =>
+  [PILL_BASE_CLASSES, isActive ? PILL_ACTIVE_CLASSES : '', extra]
+    .filter(Boolean)
+    .join(' ');
 
 const DateFilter = ({
   activeFilter,
@@ -37,65 +52,72 @@ const DateFilter = ({
   dataMin,
   dataMax,
 }: DateFilterProps) => {
-  const [showPicker, setShowPicker] = useState(activeFilter === 'custom');
+  const [isCustomPickerVisible, setIsCustomPickerVisible] = useState(
+    activeFilter === 'custom'
+  );
 
-  const handlePill = (value: Exclude<DateFilterOption, 'custom'>) => {
-    setShowPicker(false);
+  const handlePresetFilterSelect = (
+    value: Exclude<DateFilterOption, 'custom'>
+  ): void => {
+    setIsCustomPickerVisible(false);
     onFilterChange(value);
   };
 
-  const handleCustomToggle = () => {
-    const next = !showPicker;
-    setShowPicker(next);
-    onFilterChange(next ? 'custom' : 'all');
+  const handleCustomRangeToggle = (): void => {
+    const nextVisible = !isCustomPickerVisible;
+    setIsCustomPickerVisible(nextVisible);
+    onFilterChange(nextVisible ? 'custom' : 'all');
   };
+
+  const dateRangeFields: DateRangeField[] = [
+    {
+      id: 'from',
+      label: 'From',
+      value: customStart,
+      min: dataMin,
+      max: customEnd || dataMax,
+      onChange: (value) => onCustomRangeChange(value, customEnd),
+    },
+    {
+      id: 'to',
+      label: 'To',
+      value: customEnd,
+      min: customStart || dataMin,
+      max: dataMax,
+      onChange: (value) => onCustomRangeChange(customStart, value),
+    },
+  ];
 
   return (
     <div className="flex flex-col gap-[0.6rem]">
       <div className="flex gap-1 flex-wrap">
-        {FILTER_PILLS.map((opt) => (
+        {FILTER_PILLS.map((pill) => (
           <button
-            key={opt.value}
-            onClick={() => handlePill(opt.value)}
-            className={`${pillBase} ${activeFilter === opt.value ? pillActive : ''}`}
+            key={pill.value}
+            onClick={() => handlePresetFilterSelect(pill.value)}
+            className={getPillClasses(activeFilter === pill.value)}
           >
-            {opt.label}
+            {pill.label}
           </button>
         ))}
 
         <button
-          onClick={handleCustomToggle}
-          className={`${pillBase} flex items-center gap-[0.35rem] pl-[0.65em] ${activeFilter === 'custom' ? pillActive : ''}`}
+          onClick={handleCustomRangeToggle}
+          className={getPillClasses(
+            activeFilter === 'custom',
+            'flex items-center gap-[0.35rem] pl-[0.65em]'
+          )}
         >
           <CalendarIcon />
           Custom range
         </button>
       </div>
 
-      {showPicker && (
+      {isCustomPickerVisible && (
         <div className="flex items-end gap-[0.6rem] px-[0.9rem] py-3 bg-[var(--bg-card-2)] border border-[var(--border-2)] rounded-[var(--r-md)] flex-wrap animate-slide-down">
-          {(
-            [
-              {
-                id: 'from',
-                label: 'From',
-                value: customStart,
-                min: dataMin,
-                max: customEnd || dataMax,
-                onChange: (v: string) => onCustomRangeChange(v, customEnd),
-              },
-              {
-                id: 'to',
-                label: 'To',
-                value: customEnd,
-                min: customStart || dataMin,
-                max: dataMax,
-                onChange: (v: string) => onCustomRangeChange(customStart, v),
-              },
-            ] as const
-          ).map((field, i) => (
-            <>
-              <div key={field.id} className="flex flex-col gap-[0.3rem]">
+          {dateRangeFields.map((field, index) => (
+              <div key={field.id} className="contents">
+              <div className="flex flex-col gap-[0.3rem]">
                 <label className="text-[0.6875rem] font-semibold uppercase tracking-[0.06em] text-[var(--text-3)]">
                   {field.label}
                 </label>
@@ -111,12 +133,12 @@ const DateFilter = ({
                   className="bg-[var(--bg-card)] border border-[var(--border-2)] rounded-[var(--r-sm)] text-[var(--text)] text-sm px-[0.6em] py-[0.35em] transition-colors focus:border-[var(--accent)] focus:outline-none"
                 />
               </div>
-              {i === 0 && (
-                <span key="sep" className="text-sm text-[var(--text-3)] pb-[0.4rem] shrink-0">
+              {index === 0 && (
+                <span className="text-sm text-[var(--text-3)] pb-[0.4rem] shrink-0">
                   →
                 </span>
               )}
-            </>
+            </div>
           ))}
         </div>
       )}
