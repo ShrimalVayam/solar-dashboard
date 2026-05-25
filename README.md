@@ -9,18 +9,6 @@ Upload a CSV → instantly get:
 
 ---
 
-## 📸 Preview
-
-### Dashboard Overview
-![Dashboard 1](./public/images/img1.png)
-
-### Analytics View
-![Dashboard 2](./public/images/img2.png)
-
-### Demo (GIF)
-![Demo](./public/gifs/demo.gif)
-
----
 
 ## 🚀 Features
 
@@ -241,3 +229,16 @@ date,site_name,daily_production_kwh,weather,anomaly_detected
 - PDF export reports 📄
 - Multi-site comparison 📊
 - Database
+
+## 📸 Preview
+
+### Dashboard Overview
+![Dashboard 1](./public/images/img1.png)
+
+### Analytics View
+![Dashboard 2](./public/images/img2.png)
+
+### Demo (GIF)
+![Demo](./public/gifs/demo.gif)
+
+---
